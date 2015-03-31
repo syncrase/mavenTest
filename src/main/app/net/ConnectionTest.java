@@ -29,10 +29,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-
-
-
-
 import org.apache.commons.codec.binary.Base64;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -345,9 +341,7 @@ public class ConnectionTest {
 	}
 
 	public static void googleConnection() throws Exception {
-		System.getProperties().put("proxySet", "true");
-		System.getProperties().put("proxyHost", "emea-fr-par08-px01.par.sap.corp");
-		System.getProperties().put("proxyPort", "8080");
+		setProxy("emea-fr-par08-px01.par.sap.corp", "8080");
 		//
 		String sURL = "https://www.google.fr/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=test";
 		URL url = new URL(sURL);
@@ -431,5 +425,11 @@ public class ConnectionTest {
 			return nodeList.item(0).getFirstChild().getNodeValue();
 		}
 		return null;
+	}
+
+	private static void setProxy(String proxy, String port) {
+		System.getProperties().put("proxySet", "true");
+		System.getProperties().put("proxyHost", proxy);
+		System.getProperties().put("proxyPort", port);
 	}
 }
