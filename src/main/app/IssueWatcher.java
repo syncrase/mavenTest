@@ -41,9 +41,6 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.sap.prd.access.credentials.api.Credential;
-import com.sap.prd.access.credentials.api.ProdPassAccess;
-
 //TestWatchman is used for compatibility purpose with older versions of JUnit
 @SuppressWarnings("deprecation")
 public class IssueWatcher extends TestWatchman {
@@ -51,7 +48,7 @@ public class IssueWatcher extends TestWatchman {
 	public static void main(String[] args) {
 		try {
 			Issue issue = new CWBIssue("012006153200001159182015");
-			
+
 			issue = new JiraIssue("https://sapjira.wdf.sap.corp/browse/BITBIWEBISL2-1542");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -173,7 +170,7 @@ public class IssueWatcher extends TestWatchman {
 			this.jiraIssueRestUrl = baseUrl + "/rest/api/latest/issue/" + issueId;
 
 			this.status = getIssueStatus(jiraIssueRestUrl);
-			System.out.println("Jira status : "+status);
+			System.out.println("Jira status : " + status);
 		}
 
 		@Override
@@ -256,15 +253,15 @@ public class IssueWatcher extends TestWatchman {
 		}
 
 		private String findStatus(String crid2) throws Exception {
-//			System.getProperty("user.home")+"//<foldername>//"
+			// System.getProperty("user.home")+"//<foldername>//"
 			File localFile = new File("C://test//");
-			ProdPassAccess access = new ProdPassAccess(localFile);
-			Credential credential = access.getCredential("CWB");
-			String username = credential.getProperties().getProperty("user");
-			String password = credential.getProperties().getProperty("password");
+			// ProdPassAccess access = new ProdPassAccess(localFile);
+			// Credential credential = access.getCredential("CWB");
+			// String username = credential.getProperties().getProperty("user");
+			// String password = credential.getProperties().getProperty("password");
 
 			String strUrl = "https://css.wdf.sap.corp/sap/bc/bsp/spn/jcwb_api_extern/get_correction_requests?pointer=" + crid2;
-			HttpsURLConnection con = sendRequest(strUrl, username, password);
+			HttpsURLConnection con = sendRequest(strUrl, "", "");
 			int status = con.getResponseCode();
 
 			if (status == 200) {
