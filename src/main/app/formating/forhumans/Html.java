@@ -51,7 +51,7 @@ public class Html {
 			} else if (c == '>') {
 				sb.append(c);
 				if (getEndingTag == false) {
-					l.add(tag);
+					l.addTestcase(tag);
 
 					if (!tag.equals("br")) {
 						indentation++;
