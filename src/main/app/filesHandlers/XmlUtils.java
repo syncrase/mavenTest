@@ -14,12 +14,18 @@ import org.apache.commons.codec.Charsets;
 
 public class XmlUtils {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
-		Testcases xmlFileToObject = new Testcases();;
+		Testcases xmlFileStoredInAnObject = new Testcases();
 		String path = "test-defects.xml";
 		File xmlFile = new File(path);
 
+//		String str = "<testcase classname=\"test.sap.sl.sdk.authoring.IssueWatcherTest\" name=\"failingTestNoDefect\" status=\"failed\"/>";
+//		String test = applyRegex("<testcases>","<\\btestcases\\b(.*=\".*\")?/?>");
+//		System.out.println("result : "+test);
+//		test = applyRegex("<testcase actualStatus=\"failed\" classname=\"test.sap.sl.sdk.authoring.IssueWatcherTest\" message=\"Error\" name=\"failingTest3_ClassDefect\" status=\"passed\">","<\\btestcase\\b(.*=\".*\")/?>");
+//		System.out.println("result : "+test);
+		
 		try {
 
 			Iterator<String> it = Files.lines(xmlFile.toPath(), Charsets.UTF_8).iterator();
@@ -28,30 +34,32 @@ public class XmlUtils {
 				s = it.next();
 				// System.out.println(s);
 
-				if (s.contains("testcases")) {
-					xmlFileToObject = new Testcases();
+				if (!"".equals(applyRegex(s, "<\\btestcases\\b(.*=\".*\")*/?>"))) {
+					xmlFileStoredInAnObject = new Testcases();
 					continue;
-				} else if (s.contains("testcase")) {
-					xmlFileToObject.addTestcase(s);
-		
+				} else if (!"".equals(applyRegex(s, "<\\btestcase\\b(.*=\".*\")*/?>"))) {
+					xmlFileStoredInAnObject.addTestcase(s);
+
 					continue;
-				} else if (s.contains("defect")) {
+				} else if (!"".equals(applyRegex(s, "<\\bdefect\\b(.*=\".*\")*/?>"))) {
 					// Get last testcase added and set in it the defect
+					xmlFileStoredInAnObject.addDefect(s);
 					continue;
 				}
 			}
 
+			System.out.println(xmlFileStoredInAnObject.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		try {
-			String firstattr = getValue(applyRegex("<testcase actualStatus=\"failed\" classname=\"test.sap.sl.sdk.authoring.IssueWatcherTest\" "
-					+ "message=\"Error\" name=\"failingTest3_ClassDefect\" status=\"passed\">", "classname=\"(.*?)\""));
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// try {
+		// String firstattr = getValue(applyRegex("<testcase actualStatus=\"failed\" classname=\"test.sap.sl.sdk.authoring.IssueWatcherTest\" "
+		// + "message=\"Error\" name=\"failingTest3_ClassDefect\" status=\"passed\">", "\\bname=\"(.*?)\""));
+		// System.out.println(firstattr);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	/**
@@ -67,7 +75,7 @@ public class XmlUtils {
 		/**
 		 * Qui fonctionnent : - (?<=<[\\/?]?)\\w+(?::\\w+)? : retourne le tag - classname=\"(.*?)\" : retourne l'attribut et se valeur
 		 */
-		System.out.println("Tested string : " + stringToParse);
+		// System.out.println("Tested string : " + stringToParse);
 		// String regex = "classname=\"(.*?)\"";
 		// .*\"status\":\\{.*?\"name\":\"(.*?)\".*?\\}.*
 		// .?[a-z]*\"
@@ -135,7 +143,6 @@ public class XmlUtils {
 		return "";
 	}
 
-
 }
 
 /**
@@ -151,9 +158,24 @@ class Testcases {
 
 	}
 
+	public void addDefect(String s) throws Exception {
+
+		testcases.get(testcases.size() - 1).addDefect(s);
+	}
+
 	public void addTestcase(String s) throws Exception {
 		testcases.add(new Testcase(s));
-		
+
+	}
+
+	@Override
+	public String toString() {
+		String stringReturned = "";
+
+		for (Testcase t : testcases) {
+			stringReturned += t.toString() + "\n";
+		}
+		return stringReturned;
 	}
 }
 
@@ -168,13 +190,28 @@ class Testcase {
 
 	public Testcase(String xmlLine) throws Exception {
 		testcaseAttributesMap = new HashMap<String, String>(testcaseAttributesNames.length);
-		String value ="";
+		String value = "";
 		for (String attribute : testcaseAttributesNames) {
-			//Penser au cas où l'attribut n'existe pas dans la ligne xml
+			// Penser au cas où l'attribut n'existe pas dans la ligne xml
 			// Ne pas throw tout le temps des exception -> il faut les gérer mieux que ça
-			value = XmlUtils.getValue(XmlUtils.applyRegex(xmlLine, attribute+"=\"(.*?)\""));
+			value = XmlUtils.getValue(XmlUtils.applyRegex(xmlLine, "\\b" + attribute + "=\"(.*?)\""));
 			testcaseAttributesMap.put(attribute, value);
 		}
+	}
+
+	public void addDefect(String s) throws Exception {
+		defect = new Defect(s);
+	}
+
+	@Override
+	public String toString() {
+		String stringReturned = "";
+
+		stringReturned += testcaseAttributesMap.toString();
+		if (defect != null) {
+			stringReturned += "\n\t" + defect.toString();
+		}
+		return stringReturned;
 	}
 }
 
@@ -186,10 +223,18 @@ class Defect {
 	public static String[] defectAttributesNames = { "expectedMessage", "link", "status", "type" };
 	private Map<String, String> defectAttributesMap;
 
-	public Defect() {
+	public Defect(String xmlLine) throws Exception {
 		defectAttributesMap = new HashMap<String, String>(defectAttributesNames.length);
-		for (String s : defectAttributesNames) {
-			defectAttributesMap.put(s, "");
+		String value = "";
+		for (String attribute : defectAttributesNames) {
+			value = XmlUtils.getValue(XmlUtils.applyRegex(xmlLine, "\\b" + attribute + "=\"(.*?)\""));
+			defectAttributesMap.put(attribute, value);
 		}
+
+	}
+
+	@Override
+	public String toString() {
+		return defectAttributesMap.toString();
 	}
 }
