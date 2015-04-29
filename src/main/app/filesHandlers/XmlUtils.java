@@ -20,12 +20,13 @@ public class XmlUtils {
 		String path = "test-defects.xml";
 		File xmlFile = new File(path);
 
-//		String str = "<testcase classname=\"test.sap.sl.sdk.authoring.IssueWatcherTest\" name=\"failingTestNoDefect\" status=\"failed\"/>";
-//		String test = applyRegex("<testcases>","<\\btestcases\\b(.*=\".*\")?/?>");
-//		System.out.println("result : "+test);
-//		test = applyRegex("<testcase actualStatus=\"failed\" classname=\"test.sap.sl.sdk.authoring.IssueWatcherTest\" message=\"Error\" name=\"failingTest3_ClassDefect\" status=\"passed\">","<\\btestcase\\b(.*=\".*\")/?>");
-//		System.out.println("result : "+test);
-		
+		// String str = "<testcase classname=\"test.sap.sl.sdk.authoring.IssueWatcherTest\" name=\"failingTestNoDefect\" status=\"failed\"/>";
+		// String test = applyRegex("<testcases>","<\\btestcases\\b(.*=\".*\")?/?>");
+		// System.out.println("result : "+test);
+		// test =
+		// applyRegex("<testcase actualStatus=\"failed\" classname=\"test.sap.sl.sdk.authoring.IssueWatcherTest\" message=\"Error\" name=\"failingTest3_ClassDefect\" status=\"passed\">","<\\btestcase\\b(.*=\".*\")/?>");
+		// System.out.println("result : "+test);
+
 		try {
 
 			Iterator<String> it = Files.lines(xmlFile.toPath(), Charsets.UTF_8).iterator();
@@ -192,8 +193,6 @@ class Testcase {
 		testcaseAttributesMap = new HashMap<String, String>(testcaseAttributesNames.length);
 		String value = "";
 		for (String attribute : testcaseAttributesNames) {
-			// Penser au cas où l'attribut n'existe pas dans la ligne xml
-			// Ne pas throw tout le temps des exception -> il faut les gérer mieux que ça
 			value = XmlUtils.getValue(XmlUtils.applyRegex(xmlLine, "\\b" + attribute + "=\"(.*?)\""));
 			testcaseAttributesMap.put(attribute, value);
 		}
