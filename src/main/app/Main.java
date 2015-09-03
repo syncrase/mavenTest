@@ -7,13 +7,13 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		System.out.println("Ce programme est un test qui teste les tests.");
+//		System.out.println("Ce programme est un test qui teste les tests.");
 		try {
 			ConnectionTest.googleConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Entre autre");
+//		System.out.println("Entre autre");
 		
 		
 		//(int a, int b) -> {  return a + b; }

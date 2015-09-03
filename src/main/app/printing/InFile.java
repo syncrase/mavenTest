@@ -23,7 +23,7 @@ public class InFile {
 
 		// references : http://www.tutorialspoint.com/java/java_date_time.htm
 
-		stringToWriteInFile = app.formating.forhumans.Html.indent1(stringToWriteInFile);
+		stringToWriteInFile = app.formating.forhumans.Html.indent2(stringToWriteInFile);
 
 		BufferedWriter out;
 		try {

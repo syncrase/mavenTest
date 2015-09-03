@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -340,45 +341,85 @@ public class ConnectionTest {
 		}
 	}
 
-	public static void googleConnection() throws Exception {
-		setProxy("emea-fr-par08-px01.par.sap.corp", "8080");
+	public static void googleConnection() {
+		// setProxy("emea-fr-par08-px01.par.sap.corp", "8080");
 		//
-		String sURL = "https://www.google.fr/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=test";
-		URL url = new URL(sURL);
-
-		HttpURLConnection httpCon;
-		{// set up connection
-			httpCon = (HttpURLConnection) url.openConnection();
-			// set http request headers
-			httpCon.addRequestProperty("Host", sURL);
-			httpCon.addRequestProperty("Connection", "keep-alive");
-			httpCon.addRequestProperty("Cache-Control", "max-age=0");
-			httpCon.addRequestProperty("Accept", "text/html");
-			httpCon.addRequestProperty("User-Agent",
-			//
-			// "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36");
-					"Mozilla 5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.11) Chrome/30.0.1599.101");
-			// Safari/537.36 Affichage corrompu
-			// AppleWebKit/537.36 (KHTML, like Gecko) aucune sortie
-			httpCon.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
-			httpCon.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
-			httpCon.addRequestProperty(
-					"Cookie",
-					"JSESSIONID=EC0F373FCC023CD3B8B9C1E2E2F7606C; lang=tr; __utma=169322547.1217782332.1386173665.1386173665.1386173665.1; __utmb=169322547.1.10.1386173665; __utmc=169322547; __utmz=169322547.1386173665.1.1.utmcsr=stackoverflow.com|utmccn=(referral)|utmcmd=referral|utmcct=/questions/8616781/how-to-get-a-web-pages-source-code-from-java; __gads=ID=3ab4e50d8713e391:T=1386173664:S=ALNI_Mb8N_wW0xS_wRa68vhR0gTRl8MwFA; scrElm=body");
-			HttpURLConnection.setFollowRedirects(false);
-			httpCon.setInstanceFollowRedirects(false);
-			httpCon.setDoOutput(true);
-			httpCon.setUseCaches(true);
-
-			httpCon.setRequestMethod("GET");
+		String sURL = "http://localhost:5555/jenkins/view/SAPRadiator/";
+		URL url = null;
+		try {
+			url = new URL(sURL);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(httpCon.getInputStream(), "UTF-8"));
+		HttpURLConnection httpCon = null;
+		{// set up connection
+			try {
+				if (url != null) {
+					httpCon = (HttpURLConnection) url.openConnection();
+				}else{
+					throw new RuntimeException("url wasn't initialize");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			if(httpCon != null){
+				// set http request headers
+				httpCon.addRequestProperty("Host", sURL);
+				httpCon.addRequestProperty("Connection", "keep-alive");
+				httpCon.addRequestProperty("Cache-Control", "max-age=0");
+				httpCon.addRequestProperty("Accept", "text/html");
+				httpCon.addRequestProperty("User-Agent",
+				//
+				// "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36");
+						"Mozilla 5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.11) Chrome/30.0.1599.101");
+				// Safari/537.36 Affichage corrompu
+				// AppleWebKit/537.36 (KHTML, like Gecko) aucune sortie
+//				httpCon.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
+//				httpCon.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
+//				httpCon.addRequestProperty(
+//						"Cookie",
+//						"JSESSIONID=EC0F373FCC023CD3B8B9C1E2E2F7606C; lang=tr; __utma=169322547.1217782332.1386173665.1386173665.1386173665.1; __utmb=169322547.1.10.1386173665; __utmc=169322547; __utmz=169322547.1386173665.1.1.utmcsr=stackoverflow.com|utmccn=(referral)|utmcmd=referral|utmcct=/questions/8616781/how-to-get-a-web-pages-source-code-from-java; __gads=ID=3ab4e50d8713e391:T=1386173664:S=ALNI_Mb8N_wW0xS_wRa68vhR0gTRl8MwFA; scrElm=body");
+//				HttpURLConnection.setFollowRedirects(false);
+//				httpCon.setInstanceFollowRedirects(false);
+//				httpCon.setDoOutput(true);
+//				httpCon.setUseCaches(true);
+
+				try {
+					httpCon.setRequestMethod("GET");
+				} catch (ProtocolException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		BufferedReader in = null;
+		try {
+			InputStream is = httpCon.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+			in = new BufferedReader(isr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String inputLine;
 		StringBuilder a = new StringBuilder();
-		while ((inputLine = in.readLine()) != null)
-			a.append(inputLine);
-		in.close();
+		try {
+			while ((inputLine = in.readLine()) != null)
+				a.append(inputLine);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			in.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// System.out.println(a.toString());
 
