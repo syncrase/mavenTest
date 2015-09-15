@@ -1,6 +1,7 @@
 package app.parser;
 
 import java.util.LinkedList;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -17,10 +18,12 @@ public class Tokenizer {
 	private LinkedList<TokenInfo> tokenInfos;
 
 	/**
-	 * Hold encountered tokens
+	 * Hold encountered tokens<br/>
+	 * By storing the token information in a linked list, and always ensuring that we look for matches from the beginning of the list, we are giving precedence
+	 * to patterns added first.
 	 */
 	private LinkedList<Token> tokens;
-	
+
 	public Tokenizer() {
 		tokenInfos = new LinkedList<TokenInfo>();
 		tokens = new LinkedList<Token>();
@@ -37,6 +40,74 @@ public class Tokenizer {
 	public void add(String regex, int token) {
 		tokenInfos.add(new TokenInfo(Pattern.compile("^(" + regex + ")"), token));
 	}
+
+	/**
+	 * To access the result of tokenizing an input string
+	 * 
+	 * @return result of the tokenized String
+	 */
+	public LinkedList<Token> getTokens() {
+		return tokens;
+	}
+
+	/**
+	 * Tokenize an input String
+	 * 
+	 * @param str
+	 */
+	public void tokenize(String str) {
+		// we first define a local string that contains the input string but without any leading or trailing spaces. Also we clear the tokens list from any
+		// previous data.
+//		String s = new String(str);
+		String s = str.trim();
+		tokens.clear();
+
+		// The main loop is carried out until the local input string is empty. When we find a token we will remove it from the front of the string. If we are
+		// successful and the whole string could be tokenized then we will eventually end up with an empty string.
+		while (!s.equals("")) {
+			// The match variable indicates if any of the tokens provided a match with the beginning of the input string. Initially we have no match.
+			boolean match = false;
+
+			// We now loop through all the token infos.
+			for (TokenInfo info : tokenInfos) {
+				// and create a Matcher for the input string.
+				Matcher m = info.regex.matcher(s);
+				// If the pattern is found in the input string then match is set to true.
+				if (m.find()) {
+					match = true;
+
+					// The group() method of the Matcher returns the string of the last match.
+					String tok = m.group().trim();
+
+					// A new Token object is appended to the list of tokens. The token object contains the code of the token that resulted in the match and the
+					// matched string.
+					tokens.add(new Token(info.token, tok));
+
+					// the matcher is used to remove the token from the beginning of the input string. We do this with the replaceFirst() method which replaces
+					// the first (and only) match with an empty string.
+					s = m.replaceFirst("").trim();
+
+					// Finally we break out of the loop over the token infos because we don’t need to check any other token types in this round.
+					break;
+				}
+			}
+			if (!match) {
+				throw new ParserException("Unexpected character in input: " + s);
+			}
+		}
+
+	}
+
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * PRIVATES CLASSES
+	 */
 
 	private class TokenInfo {
 		/**
