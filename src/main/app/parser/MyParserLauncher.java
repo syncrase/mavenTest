@@ -25,7 +25,7 @@ public class MyParserLauncher {
 			for (MyTokenizer.Token tok : tokenizer.getTokens()) {
 				System.out.println("" + tok.token + " " + tok.sequence);
 			}
-		} catch (ParserException e) {
+		} catch (MyParserException e) {
 			System.out.println(e.getMessage());
 		}
 	}

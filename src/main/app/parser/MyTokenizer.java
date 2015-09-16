@@ -93,7 +93,7 @@ public class MyTokenizer {
 				}
 			}
 			if (!match) {
-				throw new ParserException("Unexpected character in input: " + s);
+				throw new MyParserException("Unexpected character in input: " + s);
 			}
 		}
 
@@ -197,7 +197,7 @@ public class MyTokenizer {
 			 * Token.EPSILON. If there is still a symbol left in the lookahead it means that there is an error in the input.
 			 */
 			if (lookahead.token != Token.EPSILON)
-				throw new ParserException("Unexpected symbol "+lookahead.sequence+" found");
+				throw new MyParserException("Unexpected symbol "+lookahead.sequence+" found");
 		}
 
 		/**
@@ -325,7 +325,7 @@ public class MyTokenizer {
 				expression();
 
 				if (lookahead.token != Token.CLOSE_BRACKET)
-					throw new ParserException("Closing brackets expected and " + lookahead.sequence + " found instead");
+					throw new MyParserException("Closing brackets expected and " + lookahead.sequence + " found instead");
 
 				nextToken();
 			} else {
@@ -345,7 +345,7 @@ public class MyTokenizer {
 				// argument -> VARIABLE
 				nextToken();
 			} else {
-				throw new ParserException("Unexpected symbol " + lookahead.sequence + " found");
+				throw new MyParserException("Unexpected symbol " + lookahead.sequence + " found");
 			}
 		}
 
