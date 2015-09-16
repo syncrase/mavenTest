@@ -2,6 +2,11 @@ package app.parser;
 
 public class ParserException extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2072367426290278554L;
+
 	public ParserException() {
 		super();
 		// TODO Auto-generated constructor stub
