@@ -28,7 +28,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import app.cogpar.expressionnodes.FunctionExpressionNode;
+import app.cogpar.expressionnodes.implementations.FunctionExpressionNode;
 
 /**
  * A class for reading an input string and separating it into tokens that can be

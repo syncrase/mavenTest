@@ -24,7 +24,13 @@
 
 package app.cogpar.expressionnodes;
 
-import app.cogpar.VariableExpressionNode;
+import app.cogpar.expressionnodes.implementations.AdditionExpressionNode;
+import app.cogpar.expressionnodes.implementations.ConstantExpressionNode;
+import app.cogpar.expressionnodes.implementations.ExponentiationExpressionNode;
+import app.cogpar.expressionnodes.implementations.FunctionExpressionNode;
+import app.cogpar.expressionnodes.implementations.MultiplicationExpressionNode;
+import app.cogpar.expressionnodes.implementations.VariableExpressionNode;
+
 
 /**
  * An interface for the visitor design pattern.

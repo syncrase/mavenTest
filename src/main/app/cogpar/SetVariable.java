@@ -24,12 +24,13 @@
 
 package app.cogpar;
 
-import app.cogpar.expressionnodes.AdditionExpressionNode;
-import app.cogpar.expressionnodes.ConstantExpressionNode;
-import app.cogpar.expressionnodes.ExponentiationExpressionNode;
 import app.cogpar.expressionnodes.ExpressionNodeVisitor;
-import app.cogpar.expressionnodes.FunctionExpressionNode;
-import app.cogpar.expressionnodes.MultiplicationExpressionNode;
+import app.cogpar.expressionnodes.implementations.AdditionExpressionNode;
+import app.cogpar.expressionnodes.implementations.ConstantExpressionNode;
+import app.cogpar.expressionnodes.implementations.ExponentiationExpressionNode;
+import app.cogpar.expressionnodes.implementations.FunctionExpressionNode;
+import app.cogpar.expressionnodes.implementations.MultiplicationExpressionNode;
+import app.cogpar.expressionnodes.implementations.VariableExpressionNode;
 
 /**
  * A visitor that sets a variable with a specific name to a given value

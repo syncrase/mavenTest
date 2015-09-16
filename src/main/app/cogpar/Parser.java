@@ -45,12 +45,13 @@ package app.cogpar;
 
 import java.util.LinkedList;
 
-import app.cogpar.expressionnodes.AdditionExpressionNode;
-import app.cogpar.expressionnodes.ConstantExpressionNode;
-import app.cogpar.expressionnodes.ExponentiationExpressionNode;
 import app.cogpar.expressionnodes.ExpressionNode;
-import app.cogpar.expressionnodes.FunctionExpressionNode;
-import app.cogpar.expressionnodes.MultiplicationExpressionNode;
+import app.cogpar.expressionnodes.implementations.AdditionExpressionNode;
+import app.cogpar.expressionnodes.implementations.ConstantExpressionNode;
+import app.cogpar.expressionnodes.implementations.ExponentiationExpressionNode;
+import app.cogpar.expressionnodes.implementations.FunctionExpressionNode;
+import app.cogpar.expressionnodes.implementations.MultiplicationExpressionNode;
+import app.cogpar.expressionnodes.implementations.VariableExpressionNode;
 
 /**
  * A parser for mathematical expressions. The parser class defines a method

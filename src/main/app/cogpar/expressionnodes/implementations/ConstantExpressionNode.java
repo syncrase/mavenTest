@@ -22,7 +22,10 @@
  * THE SOFTWARE.
  */
 
-package app.cogpar.expressionnodes;
+package app.cogpar.expressionnodes.implementations;
+
+import app.cogpar.expressionnodes.ExpressionNode;
+import app.cogpar.expressionnodes.ExpressionNodeVisitor;
 
 
 /**

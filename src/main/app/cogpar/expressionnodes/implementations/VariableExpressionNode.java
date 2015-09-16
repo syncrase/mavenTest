@@ -22,75 +22,87 @@
  * THE SOFTWARE.
  */
 
-package app.cogpar.expressionnodes;
+package app.cogpar.expressionnodes.implementations;
 
-import app.cogpar.expressionnodes.SequenceExpressionNode.Term;
+import app.cogpar.EvaluationException;
+import app.cogpar.expressionnodes.ExpressionNode;
+import app.cogpar.expressionnodes.ExpressionNodeVisitor;
 
 /**
- * An ExpressionNode that handles multiplications and divisions. The node can hold
- * an arbitrary number of factors that are either multiplied or divided to the product.
- * 
+ * An ExpressionNode that stores a named variable
  */
-public class MultiplicationExpressionNode extends SequenceExpressionNode
+public class VariableExpressionNode implements ExpressionNode
 {
-  /**
-   * Default constructor.
-   */
-  public MultiplicationExpressionNode()
-  {}
+  /** The name of the variable */
+  private String name;
+  /** The value of the variable */
+  private double value;
+  /** indicates if the value has been set */
+  private boolean valueSet;
 
   /**
-   * Constructor to create a multiplication with the first term already added.
+   * Construct with the name of the variable.
    * 
-   * @param node
-   *          the term to be added
-   * @param positive
-   *          a flag indicating whether the term is multiplied or divided
+   * @param name
+   *          the name of the variable
    */
-  public MultiplicationExpressionNode(ExpressionNode a, boolean positive)
+  public VariableExpressionNode(String name)
   {
-    super(a, positive);
+    this.name = name;
+    valueSet = false;
   }
 
   /**
-   * Returns the type of the node, in this case ExpressionNode.MULTIPLICATION_NODE
+   * @return the name of the variable
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * Returns the type of the node, in this case ExpressionNode.VARIABLE_NODE
    */
   public int getType()
   {
-    return ExpressionNode.MULTIPLICATION_NODE;
+    return ExpressionNode.VARIABLE_NODE;
   }
 
   /**
-   * Returns the value of the sub-expression that is rooted at this node.
+   * Sets the value of the variable
    * 
-   * All the terms are evaluated and multiplied or divided to the product.
+   * @param value
+   *          the value of the variable
+   */
+  public void setValue(double value)
+  {
+    this.value = value;
+    this.valueSet = true;
+  }
+
+  /**
+   * Returns the value of the variable but throws an exception if the value has
+   * not been set
    */
   public double getValue()
   {
-    double prod = 1.0;
-    for (Term t : terms)
-    {
-      if (t.positive)
-        prod *= t.expression.getValue();
-      else
-        prod /= t.expression.getValue();
-    }
-    return prod;
+    if (valueSet)
+      return value;
+    else
+      throw new EvaluationException("Variable '" + name + "' was not initialized.");
   }
 
   /**
    * Implementation of the visitor design pattern.
    * 
-   * Calls visit on the visitor and then passes the visitor on to the accept
-   * method of all the terms in the product.
+   * Calls visit on the visitor.
    * 
    * @param visitor
    *          the visitor
    */
   public void accept(ExpressionNodeVisitor visitor)
   {
-    visitor.visit(this);  
-    for (Term t: terms)
-      t.expression.accept(visitor);
+    visitor.visit(this);
   }
+
 }
