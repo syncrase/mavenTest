@@ -22,7 +22,8 @@
  * THE SOFTWARE.
  */
 
-package app.cogpar;
+package app.cogpar.parsercore;
+
 
 /**
  * A simple subclass of RuntimeException that indicates errors when trying to

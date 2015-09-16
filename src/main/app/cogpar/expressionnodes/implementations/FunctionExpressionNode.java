@@ -24,10 +24,10 @@
 
 package app.cogpar.expressionnodes.implementations;
 
-import app.cogpar.EvaluationException;
-import app.cogpar.ParserException;
+import app.cogpar.expressionnodes.EvaluationException;
 import app.cogpar.expressionnodes.ExpressionNode;
 import app.cogpar.expressionnodes.ExpressionNodeVisitor;
+import app.cogpar.parsercore.ParserException;
 
 /**
  * An ExpressionNode that handles mathematical functions.

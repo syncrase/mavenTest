@@ -24,7 +24,7 @@
 
 package app.cogpar.expressionnodes.implementations;
 
-import app.cogpar.EvaluationException;
+import app.cogpar.expressionnodes.EvaluationException;
 import app.cogpar.expressionnodes.ExpressionNode;
 import app.cogpar.expressionnodes.ExpressionNodeVisitor;
 

@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package app.cogpar;
+package app.cogpar.parsercore;
 
 /**
  * A token that is produced by Tokenizer and fed into Parser.parse
