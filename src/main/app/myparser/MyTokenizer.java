@@ -1,4 +1,4 @@
-package app.parser;
+package app.myparser;
 
 import java.util.LinkedList;
 import java.util.List;

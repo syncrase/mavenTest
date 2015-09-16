@@ -1,4 +1,4 @@
-package app.parser;
+package app.myparser;
 
 public class MyParserLauncher {
 
