@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package uk.co.cogitolearning.cogpar;
+package app.cogpar.expressionnodes;
 
 import java.util.ArrayList;
 

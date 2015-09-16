@@ -22,65 +22,54 @@
  * THE SOFTWARE.
  */
 
-package uk.co.cogitolearning.cogpar;
+package app.cogpar.expressionnodes;
+
 
 /**
- * An ExpressionNode that stores a constant value
+ * An interface for expression nodes.
+ * 
+ * Every concrete type of expression node has to implement this interface.
  */
-public class ConstantExpressionNode implements ExpressionNode
+public interface ExpressionNode
 {
-  /** The value of the constant */
-  private double value;
+  /** Node id for variable nodes */
+  public static final int VARIABLE_NODE = 1;
+  /** Node id for constant nodes */
+  public static final int CONSTANT_NODE = 2;
+  /** Node id for addition nodes */
+  public static final int ADDITION_NODE = 3;
+  /** Node id for multiplication nodes */
+  public static final int MULTIPLICATION_NODE = 4;
+  /** Node id for exponentiation nodes */
+  public static final int EXPONENTIATION_NODE = 5;
+  /** Node id for function nodes */
+  public static final int FUNCTION_NODE = 6;
 
   /**
-   * Construct with the fixed value.
+   * Returns the type of the node.ExpressionNode
+   *
+   * Each class derived from ExpressionNode representing a specific
+   * role in the expression should return the type according to that
+   * role.
    * 
-   * @param value
-   *          the value of the constant
+   * @return type of the node
    */
-  public ConstantExpressionNode(double value)
-  {
-    this.value = value;
-  }
-
+  public int getType();
+  
   /**
-   * Convenience constructor that takes a string and converts it to a double
-   * before storing the value.
+   * Calculates and returns the value of the sub-expression represented by
+   * the node.
    * 
-   * @param value
-   *          the string representation of the value
+   * @return value of expression
    */
-  public ConstantExpressionNode(String value)
-  {
-    this.value = Double.valueOf(value);
-  }
-
+  public double getValue();
+  
   /**
-   * Returns the value of the constant
-   */
-  public double getValue()
-  {
-    return value;
-  }
-
-  /**
-   * Returns the type of the node, in this case ExpressionNode.CONSTANT_NODE
-   */
-  public int getType()
-  {
-    return ExpressionNode.CONSTANT_NODE;
-  }
-
-  /**
-   * Implementation of the visitor design pattern.
-   * 
-   * Calls visit on the visitor.
+   * Method needed for the visitor design pattern
    * 
    * @param visitor
    *          the visitor
    */
-  public void accept(ExpressionNodeVisitor visitor)
-  {
-    visitor.visit(this);
-  }
+  public void accept(ExpressionNodeVisitor visitor);
+
 }

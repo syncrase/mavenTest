@@ -22,7 +22,8 @@
  * THE SOFTWARE.
  */
 
-package uk.co.cogitolearning.cogpar;
+package app.cogpar.expressionnodes;
+
 
 /**
  * An ExpressionNode that handles exponentiation. The node holds

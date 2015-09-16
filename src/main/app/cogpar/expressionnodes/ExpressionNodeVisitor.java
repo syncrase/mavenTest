@@ -22,7 +22,9 @@
  * THE SOFTWARE.
  */
 
-package uk.co.cogitolearning.cogpar;
+package app.cogpar.expressionnodes;
+
+import app.cogpar.VariableExpressionNode;
 
 /**
  * An interface for the visitor design pattern.

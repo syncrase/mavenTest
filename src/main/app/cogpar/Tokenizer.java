@@ -22,11 +22,13 @@
  * THE SOFTWARE.
  */
 
-package uk.co.cogitolearning.cogpar;
+package app.cogpar;
 
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import app.cogpar.expressionnodes.FunctionExpressionNode;
 
 /**
  * A class for reading an input string and separating it into tokens that can be

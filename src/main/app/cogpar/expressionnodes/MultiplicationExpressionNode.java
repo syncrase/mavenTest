@@ -22,75 +22,75 @@
  * THE SOFTWARE.
  */
 
-package app.cogpar;
+package app.cogpar.expressionnodes;
+
+import app.cogpar.expressionnodes.SequenceExpressionNode.Term;
 
 /**
- * An ExpressionNode that handles additions and subtractions. The node can hold
- * an arbitrary number of terms that are either added or subtraced from the sum.
+ * An ExpressionNode that handles multiplications and divisions. The node can hold
+ * an arbitrary number of factors that are either multiplied or divided to the product.
  * 
  */
-public class AdditionExpressionNode extends SequenceExpressionNode
+public class MultiplicationExpressionNode extends SequenceExpressionNode
 {
-
   /**
    * Default constructor.
    */
-  public AdditionExpressionNode()
+  public MultiplicationExpressionNode()
   {}
 
   /**
-   * Constructor to create an addition with the first term already added.
+   * Constructor to create a multiplication with the first term already added.
    * 
    * @param node
    *          the term to be added
    * @param positive
-   *          a flag indicating whether the term is added or subtracted
+   *          a flag indicating whether the term is multiplied or divided
    */
-  public AdditionExpressionNode(ExpressionNode node, boolean positive)
+  public MultiplicationExpressionNode(ExpressionNode a, boolean positive)
   {
-    super(node, positive);
+    super(a, positive);
   }
 
   /**
-   * Returns the type of the node, in this case ExpressionNode.ADDITION_NODE
+   * Returns the type of the node, in this case ExpressionNode.MULTIPLICATION_NODE
    */
   public int getType()
   {
-    return ExpressionNode.ADDITION_NODE;
+    return ExpressionNode.MULTIPLICATION_NODE;
   }
 
   /**
    * Returns the value of the sub-expression that is rooted at this node.
    * 
-   * All the terms are evaluated and added or subtracted from the total sum.
+   * All the terms are evaluated and multiplied or divided to the product.
    */
   public double getValue()
   {
-    double sum = 0.0;
+    double prod = 1.0;
     for (Term t : terms)
     {
       if (t.positive)
-        sum += t.expression.getValue();
+        prod *= t.expression.getValue();
       else
-        sum -= t.expression.getValue();
+        prod /= t.expression.getValue();
     }
-    return sum;
+    return prod;
   }
 
   /**
    * Implementation of the visitor design pattern.
    * 
    * Calls visit on the visitor and then passes the visitor on to the accept
-   * method of all the terms in the sum.
+   * method of all the terms in the product.
    * 
    * @param visitor
    *          the visitor
    */
   public void accept(ExpressionNodeVisitor visitor)
   {
-    visitor.visit(this);
-    for (Term t : terms)
+    visitor.visit(this);  
+    for (Term t: terms)
       t.expression.accept(visitor);
   }
-
 }

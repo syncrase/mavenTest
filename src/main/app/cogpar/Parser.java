@@ -41,9 +41,16 @@
  * To download CogPar, <a href="" alt="Download CogPar">follow this link.</a>
  */
 
-package uk.co.cogitolearning.cogpar;
+package app.cogpar;
 
 import java.util.LinkedList;
+
+import app.cogpar.expressionnodes.AdditionExpressionNode;
+import app.cogpar.expressionnodes.ConstantExpressionNode;
+import app.cogpar.expressionnodes.ExponentiationExpressionNode;
+import app.cogpar.expressionnodes.ExpressionNode;
+import app.cogpar.expressionnodes.FunctionExpressionNode;
+import app.cogpar.expressionnodes.MultiplicationExpressionNode;
 
 /**
  * A parser for mathematical expressions. The parser class defines a method

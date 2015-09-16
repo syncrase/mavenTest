@@ -22,7 +22,10 @@
  * THE SOFTWARE.
  */
 
-package uk.co.cogitolearning.cogpar;
+package app.cogpar.expressionnodes;
+
+import app.cogpar.EvaluationException;
+import app.cogpar.ParserException;
 
 /**
  * An ExpressionNode that handles mathematical functions.

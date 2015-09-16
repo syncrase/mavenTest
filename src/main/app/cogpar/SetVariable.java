@@ -22,7 +22,14 @@
  * THE SOFTWARE.
  */
 
-package uk.co.cogitolearning.cogpar;
+package app.cogpar;
+
+import app.cogpar.expressionnodes.AdditionExpressionNode;
+import app.cogpar.expressionnodes.ConstantExpressionNode;
+import app.cogpar.expressionnodes.ExponentiationExpressionNode;
+import app.cogpar.expressionnodes.ExpressionNodeVisitor;
+import app.cogpar.expressionnodes.FunctionExpressionNode;
+import app.cogpar.expressionnodes.MultiplicationExpressionNode;
 
 /**
  * A visitor that sets a variable with a specific name to a given value

@@ -24,6 +24,9 @@
 
 package app.cogpar;
 
+import app.cogpar.expressionnodes.ExpressionNode;
+import app.cogpar.expressionnodes.ExpressionNodeVisitor;
+
 /**
  * An ExpressionNode that stores a named variable
  */

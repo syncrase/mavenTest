@@ -22,7 +22,9 @@
  * THE SOFTWARE.
  */
 
-package uk.co.cogitolearning.cogpar;
+package app.cogpar;
+
+import app.cogpar.expressionnodes.ExpressionNode;
 
 /**
  * Test the Parser
