@@ -25,9 +25,9 @@
 package app.cogpar.expressionnodes.implementations;
 
 import app.cogpar.expressionnodes.ExpressionNode;
-import app.cogpar.expressionnodes.ExpressionNodeVisitor;
 import app.cogpar.expressionnodes.SequenceExpressionNode;
 import app.cogpar.expressionnodes.SequenceExpressionNode.Term;
+import app.cogpar.expressionnodes.settingvariable.ExpressionNodeVisitor;
 
 /**
  * An ExpressionNode that handles additions and subtractions. The node can hold

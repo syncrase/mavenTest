@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package app.cogpar.expressionnodes;
+package app.cogpar.expressionnodes.settingvariable;
 
 import app.cogpar.expressionnodes.implementations.AdditionExpressionNode;
 import app.cogpar.expressionnodes.implementations.ConstantExpressionNode;
@@ -31,31 +31,58 @@ import app.cogpar.expressionnodes.implementations.FunctionExpressionNode;
 import app.cogpar.expressionnodes.implementations.MultiplicationExpressionNode;
 import app.cogpar.expressionnodes.implementations.VariableExpressionNode;
 
-
 /**
- * An interface for the visitor design pattern.
- * 
- * Expression nodes can be visited by ExpressionNodeVisitor by calling their
- * accept methods. The expression nodes, in turn, call the appropriate visit
- * method of the expression node visitor.
+ * A visitor that sets a variable with a specific name to a given value
  */
-public interface ExpressionNodeVisitor
+public class SetVariable implements ExpressionNodeVisitor
 {
-  /** Visit a VariableExpressionNode */
-  public void visit(VariableExpressionNode node);
 
-  /**  Visit a ConstantExpressionNode */
-  public void visit(ConstantExpressionNode node);
+  private String name;
+  private double value;
 
-  /**  Visit a AdditionExpressionNode */
-  public void visit(AdditionExpressionNode node);
+  /**
+   * Construct the visitor with the name and the value of the variable to set
+   * 
+   * @param name
+   *          the name of the variable
+   * @param value
+   *          the value of the variable
+   */
+  public SetVariable(String name, double value)
+  {
+    super();
+    this.name = name;
+    this.value = value;
+  }
 
-  /**  Visit a MultiplicationExpressionNode */
-  public void visit(MultiplicationExpressionNode node);
+  /**
+   * Checks the nodes name against the name to set and sets the value if the two
+   * strings match
+   */
+  public void visit(VariableExpressionNode node)
+  {
+    if (node.getName().equals(name))
+      node.setValue(value);
+  }
 
-  /**  Visit a ExponentiationExpressionNode */
-  public void visit(ExponentiationExpressionNode node);
+  /** Do nothing */
+  public void visit(ConstantExpressionNode node)
+  {}
 
-  /**  Visit a FunctionExpressionNode */
-  public void visit(FunctionExpressionNode node);
+  /** Do nothing */
+  public void visit(AdditionExpressionNode node)
+  {}
+
+  /** Do nothing */
+  public void visit(MultiplicationExpressionNode node)
+  {}
+
+  /** Do nothing */
+  public void visit(ExponentiationExpressionNode node)
+  {}
+
+  /** Do nothing */
+  public void visit(FunctionExpressionNode node)
+  {}
+
 }

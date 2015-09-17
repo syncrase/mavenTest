@@ -26,7 +26,7 @@ package app.cogpar.expressionnodes.implementations;
 
 import app.cogpar.expressionnodes.EvaluationException;
 import app.cogpar.expressionnodes.ExpressionNode;
-import app.cogpar.expressionnodes.ExpressionNodeVisitor;
+import app.cogpar.expressionnodes.settingvariable.ExpressionNodeVisitor;
 
 /**
  * An ExpressionNode that stores a named variable
