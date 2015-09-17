@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * Holds an arbitrary number of ExpressionNodes together with boolean flags.
  * 
  */
-public abstract class SequenceExpressionNode implements IExpressionNode {
+public abstract class AbsSequenceExpressionNode implements IExpressionNode {
 	/**
 	 * An inner class that defines a pair containing an ExpressionNode and a boolean flag.
 	 */
@@ -63,7 +63,7 @@ public abstract class SequenceExpressionNode implements IExpressionNode {
 	/**
 	 * Default constructor.
 	 */
-	public SequenceExpressionNode() {
+	public AbsSequenceExpressionNode() {
 		this.terms = new ArrayList<Term>();
 	}
 
@@ -75,7 +75,7 @@ public abstract class SequenceExpressionNode implements IExpressionNode {
 	 * @param positive
 	 *            a boolean flag
 	 */
-	public SequenceExpressionNode(IExpressionNode a, boolean positive) {
+	public AbsSequenceExpressionNode(IExpressionNode a, boolean positive) {
 		this.terms = new ArrayList<Term>();
 		this.terms.add(new Term(positive, a));
 	}

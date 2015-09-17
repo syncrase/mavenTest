@@ -25,16 +25,16 @@
 package app.cogpar.expressionnodes.implementations;
 
 import app.cogpar.expressionnodes.IExpressionNode;
-import app.cogpar.expressionnodes.SequenceExpressionNode;
-import app.cogpar.expressionnodes.SequenceExpressionNode.Term;
-import app.cogpar.expressionnodes.settingvariable.ExpressionNodeVisitor;
+import app.cogpar.expressionnodes.AbsSequenceExpressionNode;
+import app.cogpar.expressionnodes.AbsSequenceExpressionNode.Term;
+import app.cogpar.expressionnodes.visitor.ExpressionNodeVisitor;
 
 /**
  * An ExpressionNode that handles multiplications and divisions. The node can hold an arbitrary number of factors that are either multiplied or divided to the
  * product.
  * 
  */
-public class MultiplicationExpressionNode extends SequenceExpressionNode {
+public class MultiplicationExpressionNode extends AbsSequenceExpressionNode {
 	/**
 	 * Default constructor.
 	 */

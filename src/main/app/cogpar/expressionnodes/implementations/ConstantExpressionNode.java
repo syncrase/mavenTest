@@ -25,7 +25,7 @@
 package app.cogpar.expressionnodes.implementations;
 
 import app.cogpar.expressionnodes.IExpressionNode;
-import app.cogpar.expressionnodes.settingvariable.ExpressionNodeVisitor;
+import app.cogpar.expressionnodes.visitor.ExpressionNodeVisitor;
 
 /**
  * An ExpressionNode that stores a constant value

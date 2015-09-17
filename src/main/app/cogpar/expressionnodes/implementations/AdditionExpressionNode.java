@@ -25,15 +25,15 @@
 package app.cogpar.expressionnodes.implementations;
 
 import app.cogpar.expressionnodes.IExpressionNode;
-import app.cogpar.expressionnodes.SequenceExpressionNode;
-import app.cogpar.expressionnodes.SequenceExpressionNode.Term;
-import app.cogpar.expressionnodes.settingvariable.ExpressionNodeVisitor;
+import app.cogpar.expressionnodes.AbsSequenceExpressionNode;
+import app.cogpar.expressionnodes.AbsSequenceExpressionNode.Term;
+import app.cogpar.expressionnodes.visitor.ExpressionNodeVisitor;
 
 /**
  * An ExpressionNode that handles additions and subtractions. The node can hold an arbitrary number of terms that are either added or subtraced from the sum.
  * 
  */
-public class AdditionExpressionNode extends SequenceExpressionNode {
+public class AdditionExpressionNode extends AbsSequenceExpressionNode {
 
 	/**
 	 * Default constructor.

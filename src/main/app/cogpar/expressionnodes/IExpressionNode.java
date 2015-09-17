@@ -24,7 +24,7 @@
 
 package app.cogpar.expressionnodes;
 
-import app.cogpar.expressionnodes.settingvariable.ExpressionNodeVisitor;
+import app.cogpar.expressionnodes.visitor.ExpressionNodeVisitor;
 
 /**
  * An interface for expression nodes.

@@ -26,7 +26,7 @@ package app.cogpar;
 
 import app.cogpar.expressionnodes.EvaluationException;
 import app.cogpar.expressionnodes.IExpressionNode;
-import app.cogpar.expressionnodes.settingvariable.SetVariable;
+import app.cogpar.expressionnodes.visitor.implementations.SetVariable;
 import app.cogpar.parsercore.Parser;
 import app.cogpar.parsercore.ParserException;
 
