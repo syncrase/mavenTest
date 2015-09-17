@@ -39,15 +39,24 @@ public class Test {
 	 * The main method to test the functionality of the parser
 	 */
 	public static void main(String[] args) {
-
-		String exprstr = "2*(1+sin(pi/2))^2";
+		/*
+		 * 2*(1+sin(pi/2))^2
+		 * exp(1)
+		 * ln(10)
+		 * log(1000)
+		 * (( 1 + 2 * 3 ) + ( 4 + 2 * 4 ) ) / ( x + 1 )
+		 * -2+2
+		 * -2-(-2)
+		 */
+		String exprstr = "-2-(-2)";
 		if (args.length > 0)
 			exprstr = args[0];
 
 		Parser parser = new Parser();
 		try {
 			IExpressionNode expr = parser.parse(exprstr);
-			expr.accept(new SetVariable("pi", Math.PI));
+//			expr.accept(new SetVariable("pi", Math.PI));
+			expr.accept(new SetVariable("x", 18));
 			System.out.println("The value of the expression is " + expr.getValue());
 
 		} catch (ParserException e) {
