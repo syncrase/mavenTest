@@ -45,7 +45,7 @@ package app.cogpar.parsercore;
 
 import java.util.LinkedList;
 
-import app.cogpar.expressionnodes.ExpressionNode;
+import app.cogpar.expressionnodes.IExpressionNode;
 import app.cogpar.expressionnodes.implementations.AdditionExpressionNode;
 import app.cogpar.expressionnodes.implementations.ConstantExpressionNode;
 import app.cogpar.expressionnodes.implementations.ExponentiationExpressionNode;
@@ -75,7 +75,7 @@ public class Parser {
 	 *            the string holding the input
 	 * @return the internal representation of the expression in form of an expression tree made out of ExpressionNode objects
 	 */
-	public ExpressionNode parse(String expression) {
+	public IExpressionNode parse(String expression) {
 		Tokenizer tokenizer = Tokenizer.getExpressionTokenizer();
 		tokenizer.tokenize(expression);
 		LinkedList<Token> tokens = tokenizer.getTokens();
@@ -90,13 +90,13 @@ public class Parser {
 	 * @return the internal representation of the expression in form of an expression tree made out of ExpressionNode objects
 	 */
 	@SuppressWarnings("unchecked")
-	public ExpressionNode parse(LinkedList<Token> tokens) {
+	public IExpressionNode parse(LinkedList<Token> tokens) {
 		// implementing a recursive descent parser
 		this.tokens = (LinkedList<Token>) tokens.clone();
 		lookahead = this.tokens.getFirst();
 
 		// top level non-terminal is expression
-		ExpressionNode expr = expression();
+		IExpressionNode expr = expression();
 
 		if (lookahead.token != Token.EPSILON)
 			throw new ParserException("Unexpected symbol %s found", lookahead);
@@ -105,22 +105,22 @@ public class Parser {
 	}
 
 	/** handles the non-terminal expression */
-	private ExpressionNode expression() {
+	private IExpressionNode expression() {
 		// only one rule
 		// expression -> signed_term sum_op
-		ExpressionNode expr = signedTerm();
+		IExpressionNode expr = signedTerm();
 		expr = sumOp(expr);
 		return expr;
 	}
 
 	/** handles the non-terminal sum_op */
-	private ExpressionNode sumOp(ExpressionNode expr) {
+	private IExpressionNode sumOp(IExpressionNode expr) {
 		// sum_op -> PLUSMINUS term sum_op
 		if (lookahead.token == Token.PLUSMINUS) {
 			AdditionExpressionNode sum;
 			// This means we are actually dealing with a sum
 			// If expr is not already a sum, we have to create one
-			if (expr.getType() == ExpressionNode.ADDITION_NODE)
+			if (expr.getType() == IExpressionNode.ADDITION_NODE)
 				sum = (AdditionExpressionNode) expr;
 			else
 				sum = new AdditionExpressionNode(expr, true);
@@ -128,7 +128,7 @@ public class Parser {
 			// reduce the input and recursively call sum_op
 			boolean positive = lookahead.sequence.equals("+");
 			nextToken();
-			ExpressionNode t = term();
+			IExpressionNode t = term();
 			sum.add(t, positive);
 
 			return sumOp(sum);
@@ -139,12 +139,12 @@ public class Parser {
 	}
 
 	/** handles the non-terminal signed_term */
-	private ExpressionNode signedTerm() {
+	private IExpressionNode signedTerm() {
 		// signed_term -> PLUSMINUS term
 		if (lookahead.token == Token.PLUSMINUS) {
 			boolean positive = lookahead.sequence.equals("+");
 			nextToken();
-			ExpressionNode t = term();
+			IExpressionNode t = term();
 			if (positive)
 				return t;
 			else
@@ -156,21 +156,21 @@ public class Parser {
 	}
 
 	/** handles the non-terminal term */
-	private ExpressionNode term() {
+	private IExpressionNode term() {
 		// term -> factor term_op
-		ExpressionNode f = factor();
+		IExpressionNode f = factor();
 		return termOp(f);
 	}
 
 	/** handles the non-terminal term_op */
-	private ExpressionNode termOp(ExpressionNode expression) {
+	private IExpressionNode termOp(IExpressionNode expression) {
 		// term_op -> MULTDIV factor term_op
 		if (lookahead.token == Token.MULTDIV) {
 			MultiplicationExpressionNode prod;
 
 			// This means we are actually dealing with a product
 			// If expr is not already a PRODUCT, we have to create one
-			if (expression.getType() == ExpressionNode.MULTIPLICATION_NODE)
+			if (expression.getType() == IExpressionNode.MULTIPLICATION_NODE)
 				prod = (MultiplicationExpressionNode) expression;
 			else
 				prod = new MultiplicationExpressionNode(expression, true);
@@ -178,7 +178,7 @@ public class Parser {
 			// reduce the input and recursively call sum_op
 			boolean positive = lookahead.sequence.equals("*");
 			nextToken();
-			ExpressionNode f = signedFactor();
+			IExpressionNode f = signedFactor();
 			prod.add(f, positive);
 
 			return termOp(prod);
@@ -189,12 +189,12 @@ public class Parser {
 	}
 
 	/** handles the non-terminal signed_factor */
-	private ExpressionNode signedFactor() {
+	private IExpressionNode signedFactor() {
 		// signed_factor -> PLUSMINUS factor
 		if (lookahead.token == Token.PLUSMINUS) {
 			boolean positive = lookahead.sequence.equals("+");
 			nextToken();
-			ExpressionNode t = factor();
+			IExpressionNode t = factor();
 			if (positive)
 				return t;
 			else
@@ -206,18 +206,18 @@ public class Parser {
 	}
 
 	/** handles the non-terminal factor */
-	private ExpressionNode factor() {
+	private IExpressionNode factor() {
 		// factor -> argument factor_op
-		ExpressionNode a = argument();
+		IExpressionNode a = argument();
 		return factorOp(a);
 	}
 
 	/** handles the non-terminal factor_op */
-	private ExpressionNode factorOp(ExpressionNode expr) {
+	private IExpressionNode factorOp(IExpressionNode expr) {
 		// factor_op -> RAISED expression
 		if (lookahead.token == Token.RAISED) {
 			nextToken();
-			ExpressionNode exponent = signedFactor();
+			IExpressionNode exponent = signedFactor();
 
 			return new ExponentiationExpressionNode(expr, exponent);
 		}
@@ -227,18 +227,18 @@ public class Parser {
 	}
 
 	/** handles the non-terminal argument */
-	private ExpressionNode argument() {
+	private IExpressionNode argument() {
 		// argument -> FUNCTION argument
 		if (lookahead.token == Token.FUNCTION) {
 			int function = FunctionExpressionNode.stringToFunction(lookahead.sequence);
 			nextToken();
-			ExpressionNode expr = argument();
+			IExpressionNode expr = argument();
 			return new FunctionExpressionNode(function, expr);
 		}
 		// argument -> OPEN_BRACKET sum CLOSE_BRACKET
 		else if (lookahead.token == Token.OPEN_BRACKET) {
 			nextToken();
-			ExpressionNode expr = expression();
+			IExpressionNode expr = expression();
 			if (lookahead.token != Token.CLOSE_BRACKET)
 				throw new ParserException("Closing brackets expected", lookahead);
 			nextToken();
@@ -250,17 +250,17 @@ public class Parser {
 	}
 
 	/** handles the non-terminal value */
-	private ExpressionNode value() {
+	private IExpressionNode value() {
 		// argument -> NUMBER
 		if (lookahead.token == Token.NUMBER) {
-			ExpressionNode expr = new ConstantExpressionNode(lookahead.sequence);
+			IExpressionNode expr = new ConstantExpressionNode(lookahead.sequence);
 			nextToken();
 			return expr;
 		}
 
 		// argument -> VARIABLE
 		if (lookahead.token == Token.VARIABLE) {
-			ExpressionNode expr = new VariableExpressionNode(lookahead.sequence);
+			IExpressionNode expr = new VariableExpressionNode(lookahead.sequence);
 			nextToken();
 			return expr;
 		}

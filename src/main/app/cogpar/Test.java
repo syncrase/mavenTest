@@ -25,7 +25,7 @@
 package app.cogpar;
 
 import app.cogpar.expressionnodes.EvaluationException;
-import app.cogpar.expressionnodes.ExpressionNode;
+import app.cogpar.expressionnodes.IExpressionNode;
 import app.cogpar.expressionnodes.settingvariable.SetVariable;
 import app.cogpar.parsercore.Parser;
 import app.cogpar.parsercore.ParserException;
@@ -33,33 +33,27 @@ import app.cogpar.parsercore.ParserException;
 /**
  * Test the Parser
  */
-public class Test
-{
+public class Test {
 
-  /**
-   * The main method to test the functionality of the parser
-   */
-  public static void main(String[] args)
-  {
-    
-    String exprstr = "2*(1+sin(pi/2))^2";
-    if (args.length>0) exprstr = args[0];
-    
-    Parser parser = new Parser();
-    try
-    {
-      ExpressionNode expr = parser.parse(exprstr);
-      expr.accept(new SetVariable("pi", Math.PI));
-      System.out.println("The value of the expression is "+expr.getValue());
-      
-    }
-    catch (ParserException e)
-    {
-      System.out.println(e.getMessage());
-    }
-    catch (EvaluationException e)
-    {
-      System.out.println(e.getMessage());
-    }
-  }
+	/**
+	 * The main method to test the functionality of the parser
+	 */
+	public static void main(String[] args) {
+
+		String exprstr = "2*(1+sin(pi/2))^2";
+		if (args.length > 0)
+			exprstr = args[0];
+
+		Parser parser = new Parser();
+		try {
+			IExpressionNode expr = parser.parse(exprstr);
+			expr.accept(new SetVariable("pi", Math.PI));
+			System.out.println("The value of the expression is " + expr.getValue());
+
+		} catch (ParserException e) {
+			System.out.println(e.getMessage());
+		} catch (EvaluationException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 }
